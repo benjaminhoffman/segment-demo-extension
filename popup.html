@@ -1,33 +1,19 @@
 
 <!doctype html>
-<!--
- This page is shown when the extension button is clicked, because the
- "browser_action" field in manifest.json contains the "default_popup" key with
- value "popup.html".
- -->
+
 <html>
   <head>
-    <title>Getting Started Extension's Popup</title>
+    <title>Segment Visual Tagger</title>
+    <!-- Latest compiled and minified CSS -->
     <style>
       body {
-        font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-        font-size: 100%;
+        min-width: 400px;
       }
-      #status {
-        /* avoid an excessively wide status text */
-        white-space: pre;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        max-width: 800px;
+      form {
+        padding: 5px 0px;
       }
     </style>
 
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
-     -->
     <script src="popup.js"></script>
   </head>
   <body>
@@ -38,11 +24,14 @@
         UserId: <input type="text" name="userId" /><br />
         Event Type: <input type="text" name="type" value="track" /><br />
         Event Name: <input type="text" name="name" /><br />
-        Properties: <br />
-        1: <input type="text" name="propKey1" /> : <input type="text" name="propVal1" /><br />
-        2: <input type="text" name="propKey2" /> : <input type="text" name="propVal2" /><br />
-        3: <input type="text" name="propKey3" /> : <input type="text" name="propVal3" /><br />
-        <input type="submit" value="Submit" /><br />
+        <select>
+          <option value="viewed">Item Viewed</option>
+          <option value="cart">Added to Cart</option>
+          <option value="purchase">Item Purchased</option>
+          <option value="share">Purchase Shared</option>
+        </select>
+        <br />
+        <input type="submit" value="Save Event" /><br />
     </form>
   </body>
 </html>

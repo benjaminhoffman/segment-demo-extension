@@ -3,6 +3,7 @@
 analytics.load("f3t0jvvn4q");
 analytics.page()
 }}();
+
 analytics.identify('1e810c197e', {
   name: 'Bill Lumbergh',
   email: 'bill@initech.com'
@@ -22,8 +23,7 @@ port.postMessage({ url: window.location.href });
 
 port.onMessage.addListener(function(msg) {
   trackEvent = msg;
-  $(document).click(function() {
-
+  document.body.addEventListener('click', function() {
     window.analytics.track('Signed Up', {
       plan: 'Startup',
       source: 'Analytics Academy'
