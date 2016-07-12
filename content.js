@@ -1,60 +1,33 @@
-$(document).ready(function() {
 
-  console.log('content.js loaded successfully')
+!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.1.0";
+analytics.load("f3t0jvvn4q");
+analytics.page()
+}}();
+analytics.identify('1e810c197e', {
+  name: 'Bill Lumbergh',
+  email: 'bill@initech.com'
+});
 
-  // debugger
-  if (!!window.localStorage.segmentData) {
-    var segmentLocalStorage = JSON.parse(window.localStorage.segmentData);
-    console.log(segmentLocalStorage)
-  } else {
-    segmentLocalStorage = {};
-    console.log(segmentLocalStorage)
-  }
+analytics.track('Signed Up', {
+  plan: 'Startup',
+  source: 'Analytics Academy'
+});
 
+console.log('content.js loaded successfully')
 
-  // listen for incoming messages from background.js
-  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    console.log('listener fired')
+var trackEvent = {};
+var port = chrome.runtime.connect({ name: "events" });
 
-    var newSegmentData = {};
+port.postMessage({ url: window.location.href });
 
-    // if segmentData exists, we need to parse into an object
-    if (!!window.localStorage.segmentData) {
-
-      // parse currently-existing segmentData (that exists in localStorage)
-      var currentSegmentData = JSON.parse(window.localStorage.segmentData);
-
-      // add the our trackCall data to our object
-      // it will overwrite any existing data if this url has been tagged previously
-      currentSegmentData[request.url] = request.trackCall;
-
-      // set our segmentLocalStorage object so we can send track calls
-      segmentLocalStorage = currentSegmentData;
-
-      // re-stringify segmentData so we can add it to localStorage
-      newSegmentData = JSON.stringify(currentSegmentData);
-
-    } else {
-
-      // add the our trackCall data to our object
-      newSegmentData[request.url] = request.trackCall;
-
-      // set our segmentLocalStorage object so we can send track calls
-      segmentLocalStorage = newSegmentData;
-
-      // stringify segmentData so we can add it to localStorage
-      newSegmentData = JSON.stringify(newSegmentData);
-    }
-
-    // set our localStorage data
-    window.localStorage.segmentData = newSegmentData;
-  });
-
-  console.log(new Date());
-
+port.onMessage.addListener(function(msg) {
+  trackEvent = msg;
   $(document).click(function() {
-    if (segmentLocalStorage[window.location.href]) {
-      console.log(segmentLocalStorage[window.location.href])
-    }
+
+    window.analytics.track('Signed Up', {
+      plan: 'Startup',
+      source: 'Analytics Academy'
+    });
+    console.log(trackEvent)
   });
 });
