@@ -8,9 +8,17 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   setCurrentTabUrl();
 
-  document.getElementById("defineEvent").addEventListener('submit', function(e) {
+  // show or hide the custom event field
+  document.getElementById("predefinedEvents").addEventListener('change', function() {
+    if (document.getElementById("predefinedEvents").value === 'Custom') {
+      document.getElementById("customEvent").classList.remove('hidden')
+    } else {
+      document.getElementById("customEvent").classList.add('hidden')
+    }
+  });
 
-    // e.preventDefault();
+
+  document.getElementById("defineEvent").addEventListener('submit', function(e) {
 
     // capture form data and serialize
     function getFormData(e) {
@@ -22,19 +30,27 @@ document.addEventListener('DOMContentLoaded', function () {
       formData.url = rawData.url;
       formData.trackCall = {};
       formData.trackCall.userId = rawData.userId;
-      formData.trackCall.name = rawData.name;
-      formData.trackCall.type = rawData.type;
-      formData.trackCall.properties = { };
-      formData.trackCall.properties[rawData.propKey1] = rawData.propVal1
-      formData.trackCall.properties[rawData.propKey2] = rawData.propVal2;
-      formData.trackCall.properties[rawData.propKey3] = rawData.propVal3;
+      formData.trackCall.method = rawData.method;
+      
+      // if custom track event name is chosen
+      if (document.getElementById("predefinedEvents").value === 'Custom') {
+        formData.trackCall.name = document.getElementById('customTrackName').value;
+      } else { // otherwise, pull track event name from dropdown
+        formData.trackCall.name = document.getElementById("predefinedEvents").value;
+      }
+
+      // TODO: add properties for custom events
 
       return formData;
     }
+
     var formData = getFormData(e);
 
+    // open a port and send our formData to backgound.js
     var port = chrome.runtime.connect({ name: 'events' });
     port.postMessage({newEvent: formData});
+
+    // close extension on form submit
     window.close();
 
   });
