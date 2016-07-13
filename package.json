@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "popup.js",
   "scripts": {
-    "build": "webpack --progress --profile --colors",
+    "build": "webpack --progress --profile --colors --watch",
     "test": "npm test"
   },
   "author": "",
