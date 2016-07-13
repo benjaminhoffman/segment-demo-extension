@@ -1,3 +1,5 @@
+console.log('popup.js')
+
 var PROD_NAME = '<span class="field"> \
   <label>Prod Name: </label> \
   <input type="text" name="prodName" value="Monopoly" /> \

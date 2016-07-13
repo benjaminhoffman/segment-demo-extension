@@ -1,7 +1,4 @@
-var Analytics = require('analytics-node.js')
-
-var analytics = new Analytics("cuOgSJgFEt1tN3lSUEfvWv6g1NM1hXmY");
-
+console.log('content.js')
 
 // analytics.identify('1e810c197e', {
 //   name: 'Bill Lumbergh',
@@ -13,7 +10,6 @@ var analytics = new Analytics("cuOgSJgFEt1tN3lSUEfvWv6g1NM1hXmY");
 //   source: 'Analytics Academy'
 // });
 
-console.log('content.js loaded successfully')
 
 var trackEvent = {};
 var port = chrome.runtime.connect({ name: "events" });
@@ -24,8 +20,7 @@ port.onMessage.addListener(function(msg) {
   trackEvent = msg;
   document.body.addEventListener('click', function() {
     console.log(trackEvent)
-    console.log(window.analytics);
-    debugger
+    port.postMessage({ trackEvent: trackEvent })
   });
 });
 

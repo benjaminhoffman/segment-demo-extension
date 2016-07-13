@@ -1,4 +1,7 @@
-console.log("AAAAAAA")
+console.log("background.js")
+
+// const Analytics = require('./analytics-node');
+// const analytics = new Analytics('cuOgSJgFEt1tN3lSUEfvWv6g1NM1hXmY');
 
 var port;
 
@@ -18,6 +21,16 @@ chrome.runtime.onConnect.addListener(function(port) {
       chrome.storage.sync.set(newEvent, function() {
         console.log('Event Created!')
       });
+    }
+
+    if (msg.trackEvent) {
+      console.log("YESSSSS")
+      console.log(msg)
+      analytics.track('Signed Up', {
+        plan: 'Startup',
+        source: 'Analytics Academy'
+      });
+
     }
   });
 });

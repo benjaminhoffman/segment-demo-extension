@@ -1,13 +1,27 @@
 {
-  "name": "segment-visual-demp-tagger",
+  "name": "segment-visual-demo-tagger",
   "version": "1.0.0",
-  "description": "a simple chrome extension that will help with sales demos",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/benjaminhoffman/segment-demo-extension.git"
+  "main": "popup.js",
+  "scripts": {
+    "build": "webpack --progress --profile --colors",
+    "test": "npm test"
   },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/benjaminhoffman/segment-demo-extension"
+  },
+  "homepage": "https://github.com/benjaminhoffman/segment-demo-extension",
   "devDependencies": {
-    "duo": "^0.15.6"
+    "babel-core": "^6.9.1",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-runtime": "^6.9.0",
+    "babel-plugin-webpack-loaders": "^0.6.1",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "html-webpack-plugin": "^2.22.0",
+    "webpack": "^1.13.1"
   }
 }

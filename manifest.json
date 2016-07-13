@@ -4,29 +4,33 @@
   "name": "Segment Visual Demo Tagger",
   "description": "An extension to help you visually tag your website",
   "version": "1.0",
-
+  "web_accessible_resources": [
+    "dist/popup.js"
+  ],
   "browser_action": {
     "default_icon": {
       "19": "images/icon19.png",
       "38": "images/icon38.png"
     },
-    "default_popup": "popup.html",
+    "default_popup": "dist/popup.html",
     "default_title": "Add Event"
   },
   "permissions": [
     "activeTab",
     "tabs",
     "storage",
-    "*://*/"
+    "*://*/*"
   ],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "js": ["dist/content.js"]
     }
   ],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "dist/background.js"
+    ],
     "persistent": true
   }
 }
