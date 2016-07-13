@@ -1,53 +1,53 @@
 console.log('popup.js')
 
-var PROD_NAME = '<span class="field"> \
+const PROD_NAME = '<span class="field"> \
   <label>Prod Name: </label> \
   <input type="text" name="prodName" value="Monopoly" /> \
 </span><br />'
 
-var PROD_ID =
+const PROD_ID =
 '<span class="field"> \
   <label>Product ID: </label> \
   <input type="text" name="prodId" value="507f1f77bcf86cd799439011" /> \
 </span><br />'
 
-var CAT =
+const CAT =
 '<span class="field"> \
   <label>Category: </label> \
   <input type="text" name="cat" value="Games" /> \
 </span><br />'
 
-var PRICE =
+const PRICE =
 '<span class="field"> \
   <label>Price: </label> \
   <input type="text" name="price" value="18.99" /> \
 </span><br />'
 
-var QUANTITY =
+const QUANTITY =
 '<span class="field"> \
   <label>Quantity: </label> \
   <input type="text" name="quantity" value="3" /> \
 </span><br />'
 
-var CART_ID =
+const CART_ID =
 '<span class="field"> \
   <label>Cart Id: </label> \
   <input type="text" name="cartId" value="d92jd29jd92jd29j92d92jd" /> \
 </span><br />'
 
-var PRODUCTS =
+const PRODUCTS =
 '<span class="field"> \
   <label>Products: </label> \
-  <input type="text" name="products" value="Monopoly, Chess, Checkers" /> \
+  <input type="text" name="products" value="Monopoly,Chess,Checkers" /> \
 </span><br />'
 
-var TOTAL =
+const TOTAL =
 '<span class="field"> \
   <label>Total: </label> \
   <input type="text" name="total" value="64.49" /> \
 </span><br />'
 
-var CUSTOM =
+const CUSTOM =
 '<span class="field" id="customEvent"> \
   <label>Event Name:</label> \
   <input type="text" name="customTrack" id="customTrackName" value="Button Clicked" /><br /> \
@@ -70,7 +70,7 @@ var CUSTOM =
 
 
 function addFormFields (eventName) {
-  var innerHtml = '';
+  let innerHtml = '';
   switch (eventName) {
     case '*Custom*':
       innerHtml = CUSTOM;
@@ -99,15 +99,15 @@ function removeCustomTextArea () {
 
 // capture form data and serialize
 function getFormData(e) {
-  var rawData = {};
-  var formData = {
+  const rawData = {};
+  const formData = {
     trackCall: {
       properties: {}
     }
   };
 
   // if user chooses event name other than custom
-  var trackName = document.getElementById("predefinedEvents");
+  const trackName = document.getElementById("predefinedEvents");
   if (trackName.value !== '*Custom*') {
 
     // serialize our form data
@@ -187,10 +187,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // and overwrites any events for this page
   document.getElementById("defineEvent").addEventListener('submit', function(e) {
     console.log('onSubmit')
-    var formData = getFormData(e);
+    const formData = getFormData(e);
 
     // open a port and send our formData to backgound.js
-    var port = chrome.runtime.connect({ name: 'events' });
+    const port = chrome.runtime.connect({ name: 'events' });
     port.postMessage({newEvent: formData});
 
     // close extension on form submit
