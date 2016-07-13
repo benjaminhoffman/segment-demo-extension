@@ -16,16 +16,10 @@ var port = chrome.runtime.connect({ name: "events" });
 
 port.postMessage({ url: window.location.href });
 
-port.onMessage.addListener(function(msg) {
-  trackEvent = msg;
+port.onMessage.addListener(function(trackEvent) {
   document.body.addEventListener('click', function() {
+    console.log('onClick')
     console.log(trackEvent)
     port.postMessage({ trackEvent: trackEvent })
   });
-});
-
-
-window.analytics.track('Signed Up', {
-  plan: 'Startup',
-  source: 'Analytics Academy'
 });

@@ -7,7 +7,6 @@ module.exports = {
     background: path.join(__dirname, './src/background'),
     popup: path.join(__dirname, './src/popup'),
     content: path.join(__dirname, './src/content'),
-    "analytics-node": path.join(__dirname, './src/analytics-node'),
   },
   output: {
     path: path.join(__dirname, './dist'),

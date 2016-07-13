@@ -50,11 +50,22 @@ var TOTAL =
 var CUSTOM =
 '<span class="field" id="customEvent"> \
   <label>Event Name:</label> \
-  <input type="text" name="customTrack" id="customTrackName" /><br /> \
+  <input type="text" name="customTrack" id="customTrackName" value="Button Clicked" /><br /> \
 </span> \
 <span class="field"> \
-  <input type="text" name="customKey1" value="key1" class="label-custom" /> : \
-  <input type="text" name="customVal1" value="val1" class="input-custom" /> \
+  <label>Custom Prop1:</label> \
+  <input type="text" name="customKey1" value="price" class="label-custom" /> : \
+  <input type="text" name="customVal1" value="8.99" class="input-custom" /> \
+</span><br /> \
+<span class="field"> \
+  <label>Custom Prop2:</label> \
+  <input type="text" name="customKey2" value="size" class="label-custom" /> : \
+  <input type="text" name="customVal2" value="large" class="input-custom" /> \
+</span><br /> \
+<span class="field"> \
+  <label>Custom Prop3:</label> \
+  <input type="text" name="customKey3" value="color" class="label-custom" /> : \
+  <input type="text" name="customVal3" value="blue" class="input-custom" /> \
 </span><br />'
 
 
@@ -64,13 +75,13 @@ function addFormFields (eventName) {
     case '*Custom*':
       innerHtml = CUSTOM;
       break;
-    case 'Product Viewed':
+    case 'Product Clicked':
       innerHtml = PROD_NAME + PROD_ID + CAT + PRICE + QUANTITY;
       break;
     case 'Product Added':
       innerHtml = PROD_NAME + PROD_ID + CAT + PRICE + QUANTITY;
       break;
-    case 'Cart Viewed':
+    case 'Cart Clicked':
       innerHtml = CART_ID + PRODUCTS + TOTAL;
       break;
     default:
@@ -88,9 +99,12 @@ function removeCustomTextArea () {
 
 // capture form data and serialize
 function getFormData(e) {
-  var formData = {}
-  formData.trackCall = {}
-  var rawData = {}
+  var rawData = {};
+  var formData = {
+    trackCall: {
+      properties: {}
+    }
+  };
 
   // if user chooses event name other than custom
   var trackName = document.getElementById("predefinedEvents");
@@ -103,37 +117,42 @@ function getFormData(e) {
 
     // create nested trackcall
     for (var key in rawData) {
-      formData.trackCall[key] = rawData[key];
+      formData.trackCall.properties[key] = rawData[key];
     }
 
     // convert products string into an array
-    if (formData.trackCall.products) {
-      delete formData.trackCall.products;
-      formData.trackCall.products = rawData.products.split(',')
+    if (formData.trackCall.properties.products) {
+      delete formData.trackCall.properties.products;
+      formData.trackCall.properties.products = rawData.products.split(',')
     }
 
-    delete formData.trackCall.url;
-    delete formData.trackCall[""];
+    // delete properties we don't want
+    delete formData.trackCall.properties.url;
+    delete formData.trackCall.properties[""];
+    delete formData.trackCall.properties.method;
+    delete formData.trackCall.properties.userId;
 
-    // create url property
-    formData['url'] = rawData.url;
+    // cache the current URL so we'll know which page to fire this event on
+    formData.url = rawData.url;
 
+    // capture the dropdown value and assign it to this track event name
+    formData.trackCall.event = trackName.value;
+    formData.trackCall.userId = rawData.userId;
 
   } else {
-    // TODO: need logic for custom event
-  }
+    // serialize our form data
+    for (var i = 0; i < e.target.length; i++) {
+      rawData[e.target[i].name] = e.target[i].value;
+    }
 
-
-  // if user clicks 'Custom' for event name
-  if (trackName.value === 'Custom') {
-    // capture the string user entered for their custom event name and assign to trackCall
-    formData.trackCall.name = document.getElementById('customTrackName').value;
-  } else {
-    // otherwise, pull track event name from dropdown
-    formData.trackCall.name = trackName.value;
+    // build our flat track properties object
+    formData.url = rawData.url;
+    formData.trackCall.event = rawData.customTrack;
+    formData.trackCall.userId = rawData.userId;
+    formData.trackCall.properties[rawData.customKey1] = rawData.customVal1;
+    formData.trackCall.properties[rawData.customKey2] = rawData.customVal2;
+    formData.trackCall.properties[rawData.customKey3] = rawData.customVal3;
   }
-  console.log(formData);
-  debugger
   return formData;
 }
 
@@ -155,9 +174,19 @@ document.addEventListener('DOMContentLoaded', function () {
     addFormFields(dropdownValue);
   });
 
+  // resets all of extension's localStorage
+  document.getElementById("reset").addEventListener('click', function(e) {
+    var port = chrome.runtime.connect({ name: 'events' });
+    port.postMessage({ clear: true })
 
+    // close extension on form submit
+    window.close();
+  });
+
+  // adds event for this page on form submit
+  // and overwrites any events for this page
   document.getElementById("defineEvent").addEventListener('submit', function(e) {
-
+    console.log('onSubmit')
     var formData = getFormData(e);
 
     // open a port and send our formData to backgound.js
@@ -165,7 +194,6 @@ document.addEventListener('DOMContentLoaded', function () {
     port.postMessage({newEvent: formData});
 
     // close extension on form submit
-    // window.close();
-
+    window.close();
   });
 });

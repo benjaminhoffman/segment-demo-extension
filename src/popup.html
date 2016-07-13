@@ -20,13 +20,11 @@
         box-sizing: border-box;
       }
 
-      input-custom {
-        padding: 10px 10px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
+      .input-custom {
+        min-width: 200px
+      }
+      .label-custom {
+        min-width: 200px
       }
 
       select {
@@ -68,15 +66,20 @@
         padding: 20px;
       }
 
-      .hidden {
-        display: none;
+      #reset {
+        background-color: red;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
       }
 
     </style>
 
     <script src="popup.js"></script>
-    <script src="analytics-node.js"></script>
-    <script src="requirejs.js"></script>
   </head>
   <body>
     <form id="defineEvent">
@@ -97,13 +100,14 @@
           <select id="predefinedEvents">
             <option value="" selected="selected"></option>
             <option value="*Custom*">*Custom*</option>
-            <option value="Product Viewed">Product Viewed</option>
+            <option value="Product Clicked">Product Clicked</option>
             <option value="Product Added">Product Added</option>
-            <option value="Cart Viewed">Cart Viewed</option>
+            <option value="Cart Clicked">Cart Clicked</option>
           </select>
         </span><br />
         <span id="customFields"></span>
         <input type="submit" value="Save Event" /><br />
     </form>
+    <button id="reset">Reset Events</button>
   </body>
 </html>
