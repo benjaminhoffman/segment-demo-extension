@@ -4,14 +4,23 @@
 <html>
   <head>
     <title>Segment Visual Tagger</title>
-    <!-- Latest compiled and minified CSS -->
+
     <style>
       body {
-        min-width: 400px;
+        min-width: 600px;
       }
 
-      input[type=text], select {
-        min-width: 250px;
+      input, select, textarea {
+        min-width: 450px;
+        padding: 10px 10px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      input-custom {
         padding: 10px 10px;
         margin: 8px 0;
         display: inline-block;
@@ -46,6 +55,13 @@
         text-align: right;
       }​
 
+      label-custom {
+        display: inline-block;
+        width: 50px;
+        text-align: left;
+      }​
+
+
       div {
         border-radius: 5px;
         background-color: #f2f2f2;
@@ -59,40 +75,34 @@
     </style>
 
     <script src="popup.js"></script>
+    <script src="analytics-node.js"></script>
   </head>
   <body>
     <form id="defineEvent">
-      <div>
         <span class="field">
           <label>Curent URL: </label>
-          <input type="text" name="url" id="pageUrl" /><br />
-        </span>
+          <input type="text" name="url" id="pageUrl" />
+        </span><br />
+        <span class="field" style="display:none">
+          <label>UserId: </label>
+          <input type="text" name="userId" value="d92jd29j92d" />
+        </span><br />
+        <span class="field" style="display:none">
+          <label>Method: </label>
+          <input type="text" name="method" value="track" />
+        </span><br />
         <span class="field">
-          <label>UserId:</label>
-          <input type="text" name="userId" /><br />
-        </span>
-        <span class="field">
-          <label>Method:  </label>
-          <input type="text" name="method" value="track" /><br />
-        </span>
-        <span class="field">
-          <label>Track Name:</label>
+          <label>Track Name: </label>
           <select id="predefinedEvents">
             <option value="" selected="selected"></option>
-            <option value="Custom">Custom</option>
-            <option value="------">------</option>
-            <option value="Item Viewed">Item Viewed</option>
-            <option value="Added to Cart">Added to Cart</option>
-            <option value="Item Purchased">Item Purchased</option>
-            <option value="Purchase Shared">Purchase Shared</option>
+            <option value="*Custom*">*Custom*</option>
+            <option value="Product Viewed">Product Viewed</option>
+            <option value="Product Added">Product Added</option>
+            <option value="Cart Viewed">Cart Viewed</option>
           </select>
-        </span>
-        <span class="field hidden" id="customEvent">
-          <label>Custom Name:</label>
-          <input type="text" name="customTrack" id="customTrackName" /><br />
-        </span>
+        </span><br />
+        <span id="customFields"></span>
         <input type="submit" value="Save Event" /><br />
-        </div>
     </form>
   </body>
 </html>

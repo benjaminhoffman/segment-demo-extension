@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "Getting started example",
-  "description": "This extension shows a Google Image search result for the current page",
+  "name": "Segment Visual Demo Tagger",
+  "description": "An extension to help you visually tag your website",
   "version": "1.0",
 
   "browser_action": {
@@ -11,13 +11,13 @@
       "38": "images/icon38.png"
     },
     "default_popup": "popup.html",
-    "default_title": "Click here!"
+    "default_title": "Add Event"
   },
   "permissions": [
     "activeTab",
     "tabs",
     "storage",
-    "https://ajax.googleapis.com/"
+    "*://*/"
   ],
   "content_scripts": [
     {

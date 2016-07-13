@@ -1,0 +1,13 @@
+{
+  "name": "segment-visual-demp-tagger",
+  "version": "1.0.0",
+  "description": "a simple chrome extension that will help with sales demos",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benjaminhoffman/segment-demo-extension.git"
+  },
+  "devDependencies": {
+    "duo": "^0.15.6"
+  }
+}
