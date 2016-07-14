@@ -156,7 +156,7 @@ function getFormData(e) {
   return formData;
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function () {
 
   // prefill pageUrl form field w/ current page URL
   function setCurrentTabUrl() {
@@ -182,6 +182,17 @@ document.addEventListener('DOMContentLoaded', function () {
     // close extension on form submit
     window.close();
   });
+//enable hover state and adding custom events to divs
+  document.getElementById("customize").addEventListener('click',function(e){
+    const formData = getFormData(e);
+    var port = chrome.runtime.connect({ name: 'events' });
+    chrome.extension.getBackgroundPage().console.log('clicked customize button')
+    chrome.extension.getBackgroundPage().console.log(port)
+    port.postMessage({ customize: document.getElementById("pageUrl").value+'?customize' });
+    // close extension on form submit
+    window.close();
+  });
+
 
   // adds event for this page on form submit
   // and overwrites any events for this page

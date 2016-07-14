@@ -5,14 +5,15 @@
   "description": "An extension to help you visually tag your website",
   "version": "1.0",
   "web_accessible_resources": [
-    "dist/popup.js"
+    "src/popup.js",
+    "src/hover.css"
   ],
   "browser_action": {
     "default_icon": {
       "19": "images/icon19.png",
       "38": "images/icon38.png"
     },
-    "default_popup": "dist/popup.html",
+    "default_popup": "src/popup.html",
     "default_title": "Add Event"
   },
   "permissions": [
@@ -24,12 +25,12 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["dist/content.js"]
+      "js": ["src/content.js"]
     }
   ],
   "background": {
     "scripts": [
-      "dist/background.js"
+      "src/background.js"
     ],
     "persistent": true
   }
