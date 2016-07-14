@@ -1,7 +1,7 @@
 console.log("background.js")
 
 const Analytics = require('./analytics-node');
-const analytics = new Analytics('cuOgSJgFEt1tN3lSUEfvWv6g1NM1hXmY');
+const analytics = new Analytics('cuOgSJgFEt1tN3lSUEfvWv6g1NM1hXmY', { flushAt: 1 });
 
 chrome.runtime.onConnect.addListener(function(port) {
   console.assert(port.name == 'events');
