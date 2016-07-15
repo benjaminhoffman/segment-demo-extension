@@ -3,7 +3,7 @@
 
   "name": "Segment Visual Demo Tagger",
   "description": "An extension to help you visually tag your website",
-  "version": "1.0",
+  "version": "1.1.0",
   "web_accessible_resources": [
     "dist/popup.js"
   ],

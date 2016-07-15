@@ -1,14 +1,12 @@
-console.log("background.js")
 
 const Analytics = require('./analytics-node');
-const analytics = new Analytics('cuOgSJgFEt1tN3lSUEfvWv6g1NM1hXmY', { flushAt: 1 });
+const analytics = new Analytics('dOSuxwCL1Y7Bx0p9zAaX3njukQjjNBMw', { flushAt: 1 });
 
 chrome.runtime.onConnect.addListener(function(port) {
   console.assert(port.name == 'events');
 
   port.onMessage.addListener(function(msg) {
     chrome.storage.sync.get(null, function (localStorage) {
-      console.log(localStorage)
       if (localStorage[msg.url]) {
         port.postMessage(localStorage[msg.url]);
       }

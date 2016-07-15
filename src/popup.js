@@ -1,4 +1,3 @@
-console.log('popup.js')
 
 const PROD_NAME = '<span class="field"> \
   <label>Prod Name: </label> \
@@ -41,6 +40,13 @@ const PRODUCTS =
   <input type="text" name="products" value="Monopoly,Chess,Checkers" /> \
 </span><br />'
 
+const SKU =
+'<span class="field"> \
+  <label>SKU: </label> \
+  <input type="text" name="sku" value="G-32" /> \
+</span><br />'
+
+
 const TOTAL =
 '<span class="field"> \
   <label>Total: </label> \
@@ -75,13 +81,16 @@ function addFormFields (eventName) {
     case '*Custom*':
       innerHtml = CUSTOM;
       break;
+    case 'Product List Viewed':
+        innerHtml = CAT + PRODUCTS;
+        break;
     case 'Product Clicked':
-      innerHtml = PROD_NAME + PROD_ID + CAT + PRICE + QUANTITY;
+      innerHtml = PROD_NAME + PROD_ID + SKU + CAT + PRICE + QUANTITY;
       break;
     case 'Product Added':
-      innerHtml = PROD_NAME + PROD_ID + CAT + PRICE + QUANTITY;
+      innerHtml = PROD_NAME + PROD_ID + SKU + CAT + PRICE + QUANTITY;
       break;
-    case 'Cart Clicked':
+    case 'Checkout Started':
       innerHtml = CART_ID + PRODUCTS + TOTAL;
       break;
     default:
@@ -191,9 +200,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // open a port and send our formData to backgound.js
     const port = chrome.runtime.connect({ name: 'events' });
-    port.postMessage({newEvent: formData});
+    port.postMessage({ newEvent: formData });
+    port.postMessage({ reload: true });
 
-    // close extension on form submit
+    // reload webpage & close extension on form submit
+    chrome.tabs.reload();
     window.close();
   });
 });
