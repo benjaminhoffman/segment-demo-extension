@@ -7,7 +7,7 @@
 
     <style>
       body {
-        min-width: 600px;
+        min-width: 60px;
       }
 
       input, select, textarea {
@@ -66,7 +66,7 @@
         padding: 20px;
       }
 
-      #reset {
+      .btns{
         background-color: red;
         color: white;
         padding: 14px 20px;
@@ -82,7 +82,7 @@
     <script src="popup.js"></script>
   </head>
   <body>
-    <form id="defineEvent">
+<!--     <form id="defineEvent">
         <span class="field">
           <label>Curent URL: </label>
           <input type="text" name="url" id="pageUrl" />
@@ -96,20 +96,22 @@
           <input type="text" name="method" value="track" />
         </span><br />
         <span class="field">
-          <label>Track Name: </label>
-          <select id="predefinedEvents">
-            <option value="" selected="selected"></option>
-            <option value="*Custom*">*Custom*</option>
-            <option value="Product Clicked">Product Clicked</option>
-            <option value="Product Added">Product Added</option>
-            <option value="Cart Clicked">Cart Clicked</option>
+          <label>Industry</label>
+          <select id="industry">
+            <option value="Other" selected="selected">Other</option>
+            <option value="Retail">Retail</option>
+            <option value="Publishing">Publishing</option>
+            <option value="Hospitality">Hospitality</option>
+            <option value="Travel">Travel</option>
           </select>
         </span><br />
         <span id="customFields"></span>
         <input type="submit" value="Save Event" /><br />
-    </form>
-    <button id="reset">Reset Events</button>
-    </form>
-    <button id="customize">Customize</button>
+    </form>  -->
+    <button id="reset" class="btns">Reset Events</button>
+    <br />
+    <br />
+    <br />
+    <button id="customize" class="btns">Customize</button>
   </body>
 </html>

@@ -2,9 +2,10 @@ console.log('content.js')
 var customized_event = {};
 var current_ele;
 var hover = true;
+var xpath;
 
 function getPathTo(element) {
-    if (element.id!=='')
+    /*if (element.id!=='')
         return '~DIV#'+element.id;
     if (element===document.body)
         return '~'+element.tagName;
@@ -14,7 +15,37 @@ function getPathTo(element) {
         var sibling= siblings[i];
         if (sibling===element)
             return getPathTo(element.parentNode)+' '+element.tagName;
+    }*/
+    var paths = [];
+
+    // Use nodeName (instead of localName) so namespace prefix is included (if any).
+    for ( ; element && element.nodeType == Node.ELEMENT_NODE; element = element.parentNode )  {
+        var index = 0;
+
+        for ( var sibling = element.previousSibling; sibling; sibling = sibling.previousSibling ) {
+            // Ignore document type declaration.
+            if ( sibling.nodeType == Node.DOCUMENT_TYPE_NODE ) {
+                continue;
+            }
+
+            if ( sibling.nodeName == element.nodeName ) {
+                ++index;
+            }
+        }
+
+        var tagName = element.nodeName.toLowerCase();
+
+        // *always* include the sibling index
+        var pathIndex = "[" + (index+1) + "]";
+
+        paths.unshift( tagName + pathIndex );
     }
+
+    return paths.length ? "/" + paths.join( "/") : null;
+}
+
+function getElementByXpath(path) {
+  return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 }
 
 function cancel_click_events(){
@@ -31,7 +62,7 @@ function cancel_click_events(){
 
 function save_element_tag(){
 	new_event = $('#custom_event').val();
-	path = $('#current_hover').text();
+	path = xpath;
 	if( new_event==""){
 		alert("No event selected");
 	}
@@ -72,22 +103,16 @@ if(localstorage[window.location.href]){
 		var keyarrayLength = allKeys.length;
 		for (var j = 0; j < keyarrayLength; j++){ 
 			console.log(allKeys[j]);
-			if(allKeys[j].charAt(0) == '~'){
-				path = allKeys[j].substr(1);
+			if(allKeys[j].charAt(0) == '/'){
+				path = allKeys[j];
 				console.log(path);
+				select = getElementByXpath(path);
+				console.log(select);
+				oldhref = select.href;
+				$(select).removeAttr("href");
 				var event = localstorage[allKeys[j]];
 				console.log(event)
-				var select=document.querySelector(path);
-				console.log(select);
-				if(select != null){
-					select.id = "custom_event_trigger";
-					oldhref = select.href;
-					$(select).removeAttr("href");
-					document.getElementById("custom_event_trigger").onclick = function(){send_event_message(event); window.location.href=oldhref;};
-				}
-				else{
-					send_event_message(event);
-				}
+				select.onclick = function(){send_event_message(event); window.location.href=oldhref;};
 			}
 		}
 	}
@@ -118,7 +143,12 @@ chrome.runtime.onMessage.addListener(function (msg, sender, response) {
 		var intervalid = 0;
 		document.body.addEventListener('click', function() {
 		    console.log(current_ele);
-		    document.getElementById("current_hover").innerHTML = getPathTo(current_ele);
+		    xpath = getPathTo(current_ele);
+		    text_to_display = xpath;
+		    if(text_to_display.length >20){
+		    	text_to_display = text_to_display.substring(0,17)+'...'
+		    }
+		    document.getElementById("current_hover").innerHTML = text_to_display;
 		    hover = false;
 		    setTimeout(function(){hover=true},2000)
 		});

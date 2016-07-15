@@ -12,8 +12,9 @@ document.addEventListener('DOMContentLoaded', function () {
         tabs[0].id,
         {from:    'popup',
       subject: 'customize'});
+    window.close();
   });
-  
+    
   });
   document.getElementById("reset").addEventListener('click', function(e) {
     chrome.tabs.query({
