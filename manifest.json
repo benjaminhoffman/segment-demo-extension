@@ -6,7 +6,8 @@
   "version": "1.0",
   "web_accessible_resources": [
     "src/popup.js",
-    "src/hover.css"
+    "src/hover.css",
+    "src/analytics.js"
   ],
   "browser_action": {
     "default_icon": {
@@ -25,12 +26,13 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["src/content.js","src/jquery-3.0.0.min.js"]
+      "js": ["src/content.js","src/jquery-3.0.0.min.js","src/analytics-min.js"]
     }
   ],
   "background": {
     "scripts": [
-      "src/background.js"
+      "src/background.js",
+      "src/analytics-min.js"
     ],
     "persistent": true
   }

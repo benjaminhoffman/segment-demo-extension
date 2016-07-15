@@ -21,6 +21,7 @@ div:hover {
 }
 .edit_bar_cell{
 	display: table-cell;
+	display: inline-block;
 }
 #overlay {
  position: absolute;
