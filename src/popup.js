@@ -1,6 +1,8 @@
 import  { generateNewFormFields } from './htmlForms';
 import  { serializeFormData } from './handleFormSubmit';
 
+var prop_count = 3;
+
 function addFormFields (eventName) {
   return generateNewFormFields(eventName)
 }
@@ -9,6 +11,18 @@ function removeCustomTextArea () {
   if (document.getElementById('customFields')) {
     document.getElementById('customFields').innerHTML = '';
   }
+}
+
+
+function displayProp() {
+    prop_count ++;
+    var newcontent = document.createElement('span');
+    newcontent.innerHTML = '<label>Custom Prop'+prop_count+':</label> \
+    <input type="text" name="customKey'+prop_count+'" value="color" class="label-custom" /> : \
+    <input type="text" name="customVal'+prop_count+'" value="blue" class="input-custom" />';
+    newcontent.class = 'field'
+    document.getElementById("custom_props").appendChild(newcontent);
+    document.getElementById("custom_props").appendChild(document.createElement('br'));
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -26,7 +40,12 @@ document.addEventListener('DOMContentLoaded', function () {
   var trackName = document.getElementById("predefinedEvents");
   trackName.addEventListener('change', function() {
     var dropdownValue = trackName.value;
+    console.log(dropdownValue);
     document.getElementById('customFields').innerHTML = addFormFields(dropdownValue);
+    if(dropdownValue == '*Custom*'){
+      console.log('custom')
+      document.getElementById("add_prop").addEventListener("click", displayProp);
+    }
   });
 
   // resets all of extension's localStorage

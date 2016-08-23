@@ -58,7 +58,8 @@ export function generateNewFormFields (eventName) {
   </span><br />'
 
   const CUSTOM =
-  '<span class="field" id="customEvent"> \
+  '<div id="custom_props">\
+  <span class="field" id="customEvent"> \
     <label>Event Name:</label> \
     <input type="text" name="customTrack" id="customTrackName" value="Button Clicked" /><br /> \
   </span> \
@@ -76,12 +77,16 @@ export function generateNewFormFields (eventName) {
     <label>Custom Prop3:</label> \
     <input type="text" name="customKey3" value="color" class="label-custom" /> : \
     <input type="text" name="customVal3" value="blue" class="input-custom" /> \
-  </span><br />'
+  </span><br />\
+  </div>\
+  <button id="add_prop" type="button">Add Property</button>\
+  '
 
 
   let innerHtml = '';
   switch (eventName) {
     case '*Custom*':
+      console.log(CUSTOM);
       innerHtml = CUSTOM;
       break;
     case 'Product List Viewed':
@@ -101,7 +106,6 @@ export function generateNewFormFields (eventName) {
   }
   return innerHtml;
 }
-
 
 
 

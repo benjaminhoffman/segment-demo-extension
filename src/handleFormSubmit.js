@@ -52,9 +52,28 @@ export function serializeFormData(e) {
     formData.url = rawData.url;
     formData.trackCall.event = rawData.customTrack;
     formData.trackCall.userId = rawData.userId;
-    formData.trackCall.properties[rawData.customKey1] = rawData.customVal1;
-    formData.trackCall.properties[rawData.customKey2] = rawData.customVal2;
-    formData.trackCall.properties[rawData.customKey3] = rawData.customVal3;
+    var key_arr = [];
+    var value_arr = [];
+    for (var key in rawData) {
+      //if (key.includes("Key")){
+        //rawData[key]
+        key_arr.push('Key: '+key);
+      //}
+      //if (key.includes("Val")){
+        //rawData[key]
+        value_arr.push('Val: '+key);
+      //}
+    }
+    var count = 0;
+    for (var real_key in key_arr){
+      if (count >= value_arr.length){
+        break;
+      }
+      else{
+        formData.trackCall.properties[key_arr[real_key]] = rawData[value_arr[count]];
+        count ++;
+      }
+    }
   }
   return formData;
 }
